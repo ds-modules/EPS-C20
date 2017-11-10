@@ -92,6 +92,7 @@ def plot_traces(Stations):
     
 def calculate_distance_amplitude():
     import pandas as pd
+    global cat
     event_lat = cat[0].__dict__['origins'][0]['latitude']
     event_lon = cat[0].__dict__['origins'][0]['longitude']
 
