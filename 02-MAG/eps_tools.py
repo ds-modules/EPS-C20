@@ -134,6 +134,19 @@ def plot_separate_traces(Stations):
 
     fig.suptitle('Amplitude Comparison')
     axes[2].set_xlabel('Time [s]')
-        
+
     
+
+    
+
+    
+    
+    
+    
+    
+def get_inventory():
+    inv = obspy.Inventory(networks=[], source="")
+    for filename in glob.glob("./stations/*.xml"):
+        inv += obspy.read_inventory(filename)
+    return inv    
     
