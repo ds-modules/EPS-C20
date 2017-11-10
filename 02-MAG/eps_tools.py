@@ -64,7 +64,9 @@ def load_data():
 
     st.interpolate(sampling_rate=0.5, method="lanczos",
                    starttime=max_starttime, npts=npts, a=12)
-    return st
+    print(st)
+    print(inv)
+    return [st, inv]
 
 def plot_traces(Stations):
     fig,ax = plt.subplots(1,1)
@@ -88,3 +90,7 @@ def plot_traces(Stations):
     ax.set_title('Amplitude Comparison')
     ax.set_ylabel('Normalizes Amplitude')
     ax.set_xlabel('Time [s]')
+    
+    
+    
+    
