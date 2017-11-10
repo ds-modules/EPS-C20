@@ -36,6 +36,7 @@ def download_data(downloaded = True):
 
     
 def load_data():
+
     inv = obspy.Inventory(networks=[], source="")
 
     # First read all station files.
@@ -64,10 +65,7 @@ def load_data():
 
     st.interpolate(sampling_rate=0.5, method="lanczos",
                    starttime=max_starttime, npts=npts, a=12)
-    print(st)
-    print(inv)
-    return [st, inv]
-
+    return st
 def plot_traces(Stations):
     fig,ax = plt.subplots(1,1)
 
@@ -92,5 +90,28 @@ def plot_traces(Stations):
     ax.set_xlabel('Time [s]')
     
     
+def calculate_distance_amplitude():
+    import pandas as pd
+    event_lat = cat[0].__dict__['origins'][0]['latitude']
+    event_lon = cat[0].__dict__['origins'][0]['longitude']
+
+    epi_dists = []
+
+    for station in Stations:
+        lat, long = get_stat_lat_long(station)
+        epi_dist = calculate_epicentral_distance(event_lat, event_lon, lat, long)
+        epi_dists.append(epi_dist)
+    amplitudes = []
+
+    for station in Stations:
+        amplitude = max(abs(st.select(station=station)[0].data))
+        amplitudes.append(amplitude)
+    results = pd.DataFrame(
+    {'Station': Stations,
+     'Distance [km]': epi_dists,
+     'Amplitude [mm]': amplitudes
+    })
+    return results   
+        
     
     
