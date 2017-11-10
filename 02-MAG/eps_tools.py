@@ -113,6 +113,27 @@ def calculate_distance_amplitude():
      'Amplitude [mm]': amplitudes
     })
     return results   
+
+
+def plot_separate_traces(Stations):
+    # find max amplitude
+    max_vals = []
+    for station in Stations:
+        max_vals.append( max(abs(st.select(station=station)[0].data)) )
+    ylims = [-max(max_vals)*1.1, max(max_vals)*1.1]
+
+    for i, station in enumerate(Stations): 
+        data = st.select(station=station)[0].data # unnormalized data
+        color = colors[i]
+        trace = axes[i].plot(st.select(station=station)[0].times(),data, label=station, alpha =0.6, color=color)
+        axes[i].axhline(y=max(data), xmin=min(st.select(station=station)[0].times()), xmax=max(st.select(station=station)[0].times()), ls=':', c=color, alpha=0.7)
+        axes[i].axhline(y=min(data), xmin=min(st.select(station=station)[0].times()), xmax=max(st.select(station=station)[0].times()), ls=':', c=color, alpha=0.7)
+        axes[i].set_ylabel('Amplitude [mm]')
+        axes[i].set_ylim(ylims)
+        axes[i].set_title(station)
+
+    fig.suptitle('Amplitude Comparison')
+    axes[2].set_xlabel('Time [s]')
         
     
     
