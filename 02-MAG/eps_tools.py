@@ -10,7 +10,7 @@ import os
 import numpy as np
 
     
-def download_data(downloaded = True):
+def download_data(cat, downloaded = True):
     if not downloaded:
         # First, define a domain.
         domain = CircularDomain(latitude=cat[0].origins[0].latitude,
@@ -31,7 +31,8 @@ def download_data(downloaded = True):
         mdl.download(domain, restrictions,
                  mseed_storage="waveforms",
                  stationxml_storage="stations")
-    print("Data is already downloaded")
+    else:
+        print("Data is already downloaded")
     
 
     
